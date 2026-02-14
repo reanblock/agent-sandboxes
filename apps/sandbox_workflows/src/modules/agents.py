@@ -83,6 +83,11 @@ class SandboxForkAgent:
         if github_token:
             agent_env["GITHUB_TOKEN"] = github_token
 
+        # CRITICAL: Pass ANTHROPIC_API_KEY for Claude SDK authentication
+        anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
+        if anthropic_api_key:
+            agent_env["ANTHROPIC_API_KEY"] = anthropic_api_key
+
         # Build ClaudeAgentOptions
         self.options = ClaudeAgentOptions(
             system_prompt=self.system_prompt,

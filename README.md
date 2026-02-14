@@ -1,4 +1,19 @@
 # Agent Sandboxes
+
+## Quick Start
+
+1. Clone this "agent_sandboxes" repo and cd into it.
+1. Add `.env` to the project root with the `E2B_API_KEY` and `ANTHROPIC_API_KEY` set.
+1. Run `cp .env apps/sandbox_agent_working_dir/.env` 
+1. Run `cp apps/sandbox_agent_working_dir/.mcp.json.sandbox apps/sandbox_agent_working_dir/.mcp.json` and add the `E2B_API_KEY`.
+1. Run the following sanity check command to see its working: `cd apps/sandbox_workflows && uv run obox https://github.com/reanblock/todo-app-with-claude.git --prompt "Install dependencies, start the dev server, and report the public URL. Do nothing else." --max-turns 15 --model haiku`
+1. Open two separate claude code instances in yolo mode using sonnet.
+1. In the first instance, run `/prime_obox` which makes this the orchestrator.
+1. In the second instance use to generate a list of prompt variations you need.
+1. In the first instance (orchestrator) run the following prompt: `run obox <github-url>, <new-feature-branch-name>, model: <model-to-use>, forks: <number>, promot: <your-promot>`.
+
+## Original README below..
+
 >
 > Here we explore e2b agent sandboxes and claude code together to scale your agentic engineering.
 >
