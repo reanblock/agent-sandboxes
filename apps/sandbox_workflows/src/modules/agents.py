@@ -83,10 +83,23 @@ class SandboxForkAgent:
         if github_token:
             agent_env["GITHUB_TOKEN"] = github_token
 
-        # CRITICAL: Pass ANTHROPIC_API_KEY for Claude SDK authentication
+        # CRITICAL: Pass authentication credentials for Claude SDK
         anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
         if anthropic_api_key:
             agent_env["ANTHROPIC_API_KEY"] = anthropic_api_key
+
+        # Support OAuth token authentication (Claude Pro/Max subscription billing)
+        claude_code_oauth_token = os.getenv("CLAUDE_CODE_OAUTH_TOKEN")
+        if claude_code_oauth_token:
+            agent_env["CLAUDE_CODE_OAUTH_TOKEN"] = claude_code_oauth_token
+
+        # Warn if both auth methods are set simultaneously
+        if anthropic_api_key and claude_code_oauth_token:
+            self.logger.log(
+                "WARNING",
+                "Both ANTHROPIC_API_KEY and CLAUDE_CODE_OAUTH_TOKEN are set. "
+                "ANTHROPIC_API_KEY takes precedence. Remove one to avoid conflicts.",
+            )
 
         # Unset CLAUDECODE to allow running inside a Claude Code session
         agent_env["CLAUDECODE"] = ""

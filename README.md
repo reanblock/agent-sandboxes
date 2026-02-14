@@ -3,16 +3,17 @@
 ## Quick Start
 
 1. Clone this "agent_sandboxes" repo and cd into it.
-1. Add `.env` to the project root with the `E2B_API_KEY` and `ANTHROPIC_API_KEY` set.
-1. Run `cp .env apps/sandbox_agent_working_dir/.env` 
-1. Run `cp apps/sandbox_agent_working_dir/.mcp.json.sandbox apps/sandbox_agent_working_dir/.mcp.json` and add the `E2B_API_KEY`.
-1. Run the following sanity check command to see its working: `cd apps/sandbox_workflows && uv run obox https://github.com/reanblock/todo-app-with-claude.git --prompt "Install dependencies, start the dev server, and report the public URL. Do nothing else." --max-turns 15 --model haiku`
-1. Open two separate claude code instances in yolo mode using sonnet.
-1. In the first instance, run `/prime_obox` which makes this the orchestrator.
-1. In the second instance use to generate a list of prompt variations you need.
-1. In the first instance (orchestrator) run the following prompt: `run obox <github-url>, <new-feature-branch-name>, model: <model-to-use>, forks: <number>, promot: <your-promot>`.
-2. Sandbox logs will be saved in `apps/sandbox_agent_working_dir/logs/` directly.
-3. Interact with sandbox using cli. README [here](./apps/sandbox_cli/README.md)
+2. Run `claude setup-token` to get an OAUTH token to use in the next step.
+3. Add `.env` to the project root with the `E2B_API_KEY` and `CLAUDE_CODE_OAUTH_TOKEN` set.
+4. Run `cp .env apps/sandbox_agent_working_dir/.env` 
+5. Run `cp apps/sandbox_agent_working_dir/.mcp.json.sandbox apps/sandbox_agent_working_dir/.mcp.json` and add the `E2B_API_KEY`.
+6. Run the following sanity check command to see its working: `cd apps/sandbox_workflows && uv run obox https://github.com/reanblock/todo-app-with-claude.git --prompt "Install dependencies, start the dev server, and report the public URL. Do nothing else." --max-turns 15 --model haiku`
+7. Open two separate claude code instances in yolo mode using sonnet.
+8. In the first instance, run `/prime_obox` which makes this the orchestrator.
+9. In the second instance use to generate a list of prompt variations you need.
+10. In the first instance (orchestrator) run the following prompt: `run obox <github-url>, <new-feature-branch-name>, model: <model-to-use>, forks: <number>, promot: <your-promot>`.
+11. Sandbox logs will be saved in `apps/sandbox_agent_working_dir/logs/` directly.
+12. Interact with sandbox using cli. README [here](./apps/sandbox_cli/README.md)
 
 **EXAMPLE PROMPT**
 
@@ -73,11 +74,19 @@ Create a `.env` file in the project root with the following API keys:
 ```bash
 # Required for all sandbox operations
 E2B_API_KEY=your_e2b_api_key_here
+
+# Authentication: set ONE of these, not both
+# Option 1: API key (pay-per-use billing via Anthropic Console)
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
+# Option 2: OAuth token (Claude Pro/Max subscription billing)
+# Generate with: claude setup-token
+CLAUDE_CODE_OAUTH_TOKEN=your_oauth_token_here
 
 # Optional: Required for git push/PR functionality
 GITHUB_TOKEN=your_github_token_here
 ```
+
+> **Note:** Set either `ANTHROPIC_API_KEY` or `CLAUDE_CODE_OAUTH_TOKEN`, not both. The API key uses pay-per-token billing through the Anthropic Console, while the OAuth token bills through your Claude Pro/Max subscription (the same auth method used by `claude-code-action`). If both are set, `ANTHROPIC_API_KEY` takes precedence and a warning is logged.
 
 **Install the top Agentic Coding Tool:**
 - **Claude Code**: [https://www.claude.com/product/claude-code](https://www.claude.com/product/claude-code)
@@ -85,6 +94,7 @@ GITHUB_TOKEN=your_github_token_here
 **Get your API keys:**
 - **E2B API Key**: [https://e2b.dev/docs](https://e2b.dev/docs) - Sign up and get your API key
 - **Anthropic API Key**: [https://console.anthropic.com/](https://console.anthropic.com/) - Create an API key in your account settings
+- **Claude Code OAuth Token**: Run `claude setup-token` to generate an OAuth token for Claude Pro/Max subscription billing
 - **GitHub Token**: [https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) - Create a personal access token with `repo` scope
 
 ### 2. Application Usage
