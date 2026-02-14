@@ -88,6 +88,9 @@ class SandboxForkAgent:
         if anthropic_api_key:
             agent_env["ANTHROPIC_API_KEY"] = anthropic_api_key
 
+        # Unset CLAUDECODE to allow running inside a Claude Code session
+        agent_env["CLAUDECODE"] = ""
+
         # Build ClaudeAgentOptions
         self.options = ClaudeAgentOptions(
             system_prompt=self.system_prompt,
