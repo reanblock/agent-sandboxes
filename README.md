@@ -7,7 +7,7 @@
 3. Add `.env` to the project root with the `E2B_API_KEY` and `CLAUDE_CODE_OAUTH_TOKEN` set.
 4. Run `cp .env apps/sandbox_agent_working_dir/.env` 
 5. Run `cp apps/sandbox_agent_working_dir/.mcp.json.sandbox apps/sandbox_agent_working_dir/.mcp.json` and add the `E2B_API_KEY`.
-6. Run the following sanity check command to see its working: `cd apps/sandbox_workflows && uv run obox https://github.com/reanblock/todo-app-with-claude.git --prompt "Install dependencies, start the dev server, and report the public URL. Do nothing else." --max-turns 15 --model haiku`
+6. Run the following sanity check command to see its working: `cd apps/sandbox_workflows && uv run obox https://github.com/reanblock/todo-app-with-claude.git --prompt "Install dependencies, start the dev server, and report the public URL. Do nothing else." --max-turns 100 --model haiku`
 7. Open two separate claude code instances in yolo mode using sonnet.
 8. In the first instance, run `/prime_obox` which makes this the orchestrator.
 9. In the second instance use to generate a list of prompt variations you need.

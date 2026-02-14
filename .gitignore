@@ -90,5 +90,6 @@ apps/sandbox_agent_working_dir/specs/
 adws/
 
 # claude
+.devcontainer/
 **/.claude/data/sessions/
 logs
