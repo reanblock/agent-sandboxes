@@ -121,6 +121,15 @@ Please complete the following tasks:
    # Install dependencies if needed
    npm install  # or bun install
 
+   # IMPORTANT: Before starting a Vite dev server, you MUST configure it to allow the E2B
+   # sandbox host. Vite 6+ blocks requests from unknown hosts by default, and E2B sandboxes
+   # use dynamic hostnames (e.g., 5173-xxxxx.e2b.app) that Vite will reject.
+   #
+   # Read the existing vite.config.js with mcp__e2b-sandbox__read_file, then use
+   # mcp__e2b-sandbox__write_file to add these properties to the config:
+   #   server: {{ host: "0.0.0.0", allowedHosts: true }}
+   # If a `server` block already exists, merge `allowedHosts: true` into it.
+
    # Start dev server in background
    npm run dev &  # or bun run dev &
 
