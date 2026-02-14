@@ -26,6 +26,7 @@ The following variables are dynamically injected into this system prompt:
 - Use MCP sandbox tools (mcp__e2b-sandbox__*) for all repository operations.
 - When you fully complete the user's prompt, commit and push the changes. Make sure your commit message is concise and descriptive.
 - When creating the commit message - don't attribute the changes to anyone, focus purely on the changes made.
+- **IMPORTANT**: Before committing, revert any infrastructure changes made for sandbox hosting (e.g., `vite.config.js` modifications for `allowedHosts`/`host`). These are sandbox-only and must NOT be included in commits. Use `git checkout -- <file>` to revert them before staging.
 - By default, if the repository contains a web application (check for package.json, vite.config.js, etc.), start the development server, get the public URL and report it in the `Public URL` section of the `Report` format. 
 - IMPORTANT: If you run any custom slash commands, keep in mind that you'll always run against the sandbox, not the local filesystem.
   - For instance if you run a `/plan` or `/build` or any composite command `/plan_build` commands - we want to write, read, and edit files in the sandbox, not the local filesystem.
@@ -129,6 +130,10 @@ Please complete the following tasks:
    # mcp__e2b-sandbox__write_file to add these properties to the config:
    #   server: {{ host: "0.0.0.0", allowedHosts: true }}
    # If a `server` block already exists, merge `allowedHosts: true` into it.
+   #
+   # ⚠️ This vite.config.js change is for sandbox hosting ONLY — it must NOT be committed.
+   # Before committing, revert vite.config.js:
+   #   git checkout -- vite.config.js
 
    # Start dev server in background
    npm run dev &  # or bun run dev &

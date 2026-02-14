@@ -88,3 +88,7 @@ tmp/
 apps/sandbox_agent_working_dir/specs/
 
 adws/
+
+# claude
+**/.claude/data/sessions/
+logs

@@ -11,6 +11,22 @@
 1. In the first instance, run `/prime_obox` which makes this the orchestrator.
 1. In the second instance use to generate a list of prompt variations you need.
 1. In the first instance (orchestrator) run the following prompt: `run obox <github-url>, <new-feature-branch-name>, model: <model-to-use>, forks: <number>, promot: <your-promot>`.
+2. Sandbox logs will be saved in `apps/sandbox_agent_working_dir/logs/` directly.
+3. Interact with sandbox using cli. README [here](./apps/sandbox_cli/README.md)
+
+**EXAMPLE PROMPT**
+
+In the orchestrator Claude Code window, try the following prompt:
+
+```bash
+run obox: https://github.com/reanblock/todo-app-with-claude.git, todo-app-buttons, model: haiku, fork: 1, prompt: Update the style of the Add Chore button to make it animated.
+```
+
+The equivalent cli command is the following:
+
+```bash
+cd apps/sandbox_workflows && uv run obox https://github.com/reanblock/todo-app-with-claude.git --branch todo-app-buttons --model haiku --prompt "Update the style of the Add Chore button to make it animated." --forks 1
+```
 
 ## Original README below..
 
