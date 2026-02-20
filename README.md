@@ -1,5 +1,25 @@
 # Agent Sandboxes
 
+## Quick Start 1: Run prompt from file in sandbox:
+
+This example assumes the plan file is located on the local folder relative to the directory where the command is run.
+
+1. Create a plan using claude in the project folder.
+2. Run the following command (replace params as required).
+3. **NOTE**: Currently the default timeout is 30 minutes and there is no cli param to override that. Of course, we can update it in `apps/sandbox_workflows/src/prompts/sandbox_fork_agent_system_prompt.md`
+
+```bash
+cd apps/sandbox_workflows && uv run obox https://github.com/reanblock/todo-app-with-claude.git \
+  --prompt ../../../todo-app-with-claude/specs/agenda-list-view.md \
+  --branch feature/agenda-list-view \
+  --model sonnet \
+  --forks 1
+```
+
+While this is runnning you can check status in the [e2b Dashboard](https://e2b.dev/dashboard/darrenjensen/sandboxes?tab=monitoring) or run any of [these cli commands](./apps/sandbox_cli/README.md).
+
+**TIP**: You can try to SSH into the running e2b instance using `cd apps/sandbox_cli && uv run sbx sandbox connect $SANDBOX_ID` (NOTE: this appears to be buggy and may only estabilsih an SSH session **while Claude is actively running** - consider improving later!).
+
 ## Quick Start
 
 1. Clone this "agent_sandboxes" repo and cd into it.

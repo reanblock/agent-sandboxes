@@ -1,0 +1,87 @@
+stories:
+  - name: "Toggle to agenda view"
+    url: "http://localhost:5173/"
+    workflow: |
+      Navigate to http://localhost:5173/
+      Verify the calendar month grid is visible by default
+      Click the "Agenda" toggle button in the header
+      Verify the month grid disappears and a chronological chore list appears instead
+      Verify the header title changes to "Upcoming Chores"
+      Verify the Prev/Next/Today navigation buttons are hidden
+
+  - name: "Agenda shows only today and future dates"
+    url: "http://localhost:5173/"
+    workflow: |
+      Navigate to http://localhost:5173/
+      Click the "Agenda" toggle button
+      Verify no past dates appear in the agenda list
+      Add a chore with today's date
+      Verify today's date group appears at the top of the agenda list
+      Verify today's group has a distinct visual highlight (blue background or accent)
+
+  - name: "Chores grouped by date in chronological order"
+    url: "http://localhost:5173/"
+    workflow: |
+      Navigate to http://localhost:5173/
+      Add a chore titled "First Task" with a date 3 days from today
+      Add a chore titled "Second Task" with a date 7 days from today
+      Add a chore titled "Third Task" with a date 1 day from today
+      Click the "Agenda" toggle button
+      Verify chores are grouped under date headers
+      Verify date groups appear in ascending chronological order (1 day, 3 days, 7 days from today)
+      Verify each chore appears under its correct date header
+
+  - name: "Toggle chore completion in agenda view"
+    url: "http://localhost:5173/"
+    workflow: |
+      Navigate to http://localhost:5173/
+      Add a chore titled "Test Complete" with today's date
+      Click the "Agenda" toggle button
+      Locate the "Test Complete" chore in the agenda list
+      Click the checkbox next to "Test Complete"
+      Verify the chore title shows strikethrough styling
+      Verify a "Done" badge or completed indicator is visible
+      Verify the chore appears with reduced opacity
+
+  - name: "Click chore to edit in agenda view"
+    url: "http://localhost:5173/"
+    workflow: |
+      Navigate to http://localhost:5173/
+      Add a chore titled "Edit Me" with today's date and description "Test description"
+      Click the "Agenda" toggle button
+      Click on the "Edit Me" chore row in the agenda list
+      Verify the chore edit modal opens
+      Verify the modal shows the chore title "Edit Me"
+      Verify the modal shows the description "Test description"
+
+  - name: "Load more future dates"
+    url: "http://localhost:5173/"
+    workflow: |
+      Navigate to http://localhost:5173/
+      Add a recurring daily chore starting today
+      Click the "Agenda" toggle button
+      Verify chores appear in the initial 30-day visible range
+      Scroll to the bottom of the agenda list
+      Click the "Show More" button
+      Verify additional future dates with chores appear below the existing ones
+
+  - name: "Empty state when no upcoming chores"
+    url: "http://localhost:5173/"
+    workflow: |
+      Navigate to http://localhost:5173/
+      Ensure there are no upcoming chores (delete any existing chores with future dates)
+      Click the "Agenda" toggle button
+      Verify the "No upcoming chores" empty state message is displayed
+      Verify a descriptive subtext or icon is also visible
+      Verify the "Show More" button is still accessible at the bottom
+
+  - name: "Switch back to calendar view"
+    url: "http://localhost:5173/"
+    workflow: |
+      Navigate to http://localhost:5173/
+      Click the "Agenda" toggle button to switch to agenda view
+      Verify the agenda list is visible
+      Click the "Calendar" toggle button
+      Verify the month grid calendar view is restored
+      Verify the month/year title and Prev/Next/Today navigation buttons reappear
+      Verify the calendar shows the correct current month

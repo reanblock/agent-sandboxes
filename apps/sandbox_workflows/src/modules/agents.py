@@ -18,6 +18,7 @@ from claude_agent_sdk import (
     ToolResultBlock,
     ResultMessage,
 )
+from claude_agent_sdk._errors import MessageParseError
 from .logs import ForkLogger
 from .hooks import create_hook_dict
 from .constants import (
@@ -195,8 +196,27 @@ class SandboxForkAgent:
             await client.query(self.user_prompt)
             self.logger.log("INFO", "Query submitted to agent")
 
-            # Stream messages and log each
-            async for message in client.receive_response():
+            # Stream messages and log each.
+            #
+            # We intentionally bypass client.receive_response() here.
+            # That method uses an async generator chain where
+            # parse_message() is called inside the generator body.
+            # If parse_message() raises MessageParseError (e.g. for
+            # rate_limit_event), the exception terminates the generator
+            # permanently — subsequent __anext__() calls yield
+            # StopAsyncIteration and the stream is lost.
+            #
+            # By reading raw dicts from the query stream and calling
+            # parse_message() ourselves, we keep the underlying stream
+            # alive when encountering unknown message types.
+            from claude_agent_sdk._internal.message_parser import parse_message
+
+            async for data in client._query.receive_messages():
+                try:
+                    message = parse_message(data)
+                except MessageParseError as e:
+                    self.logger.log("DEBUG", f"Skipping unrecognised message: {e}")
+                    continue
                 self._log_message(message)
 
                 # Check for ResultMessage to extract cost/tokens
@@ -235,6 +255,7 @@ class SandboxForkAgent:
                         output_tokens=result["output_tokens"],
                         cost=f"${result['cost']:.4f}",
                     )
+                    break  # ResultMessage signals end of response
 
             # Disconnect client
             await client.disconnect()
