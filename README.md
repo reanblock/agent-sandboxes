@@ -18,7 +18,7 @@
 
 ```bash
 cd apps/sandbox_workflows && uv run obox https://github.com/reanblock/todo-app-with-claude.git \
-  --prompt promots/write-basic-unit-tests.md \
+  --prompt prompts/write-basic-unit-tests.md \
   --branch your-feature-branch \
   --model sonnet \
   --forks 1
