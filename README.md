@@ -1,39 +1,41 @@
 # Agent Sandboxes
 
+## Install and Setup
+
+1. Clone this "agent_sandboxes" repo and cd into it.
+2. Run `claude setup-token` to get an OAUTH token to use in the next step.
+3. Setup a Github PAT [here](https://github.com/settings/personal-access-tokens)
+4. Add `.env` to the project root with the `E2B_API_KEY`, `CLAUDE_CODE_OAUTH_TOKEN` and `GITHUB_TOKEN` are all set.
+5. Run `cp .env apps/sandbox_agent_working_dir/.env` 
+6. Run `cp apps/sandbox_agent_working_dir/.mcp.json.sandbox apps/sandbox_agent_working_dir/.mcp.json` and add the `E2B_API_KEY`.
+7. Run the following sanity check command to see its working: `cd apps/sandbox_workflows && uv run obox https://github.com/reanblock/todo-app-with-claude.git --prompt "Install dependencies, start the dev server, and report the public URL. Do nothing else." --max-turns 100 --model haiku`
+
 ## Quick Start 1: Run prompt from file in sandbox:
 
-This example assumes the plan file is located on the local folder relative to the directory where the command is run.
-
-1. Create a plan using claude in the project folder.
+1. Create a detailed feature plan or a simple promot using claude and save as a MD file
 2. Run the following command (replace params as required).
 3. **NOTE**: Currently the default timeout is 30 minutes and there is no cli param to override that. Of course, we can update it in `apps/sandbox_workflows/src/prompts/sandbox_fork_agent_system_prompt.md`
 
 ```bash
 cd apps/sandbox_workflows && uv run obox https://github.com/reanblock/todo-app-with-claude.git \
-  --prompt ../../../todo-app-with-claude/specs/agenda-list-view.md \
-  --branch feature/agenda-list-view \
+  --prompt promots/write-basic-unit-tests.md \
+  --branch your-feature-branch \
   --model sonnet \
   --forks 1
 ```
 
 While this is runnning you can check status in the [e2b Dashboard](https://e2b.dev/dashboard/darrenjensen/sandboxes?tab=monitoring) or run any of [these cli commands](./apps/sandbox_cli/README.md).
 
-**TIP**: You can try to SSH into the running e2b instance using `cd apps/sandbox_cli && uv run sbx sandbox connect $SANDBOX_ID` (NOTE: this appears to be buggy and may only estabilsih an SSH session **while Claude is actively running** - consider improving later!).
+You can also run in a claude code instance (section below "Use MCP Server with Claude Desktop").
 
-## Quick Start
+## Quick Start 2: Run promot claude code
 
-1. Clone this "agent_sandboxes" repo and cd into it.
-2. Run `claude setup-token` to get an OAUTH token to use in the next step.
-3. Add `.env` to the project root with the `E2B_API_KEY` and `CLAUDE_CODE_OAUTH_TOKEN` set.
-4. Run `cp .env apps/sandbox_agent_working_dir/.env` 
-5. Run `cp apps/sandbox_agent_working_dir/.mcp.json.sandbox apps/sandbox_agent_working_dir/.mcp.json` and add the `E2B_API_KEY`.
-6. Run the following sanity check command to see its working: `cd apps/sandbox_workflows && uv run obox https://github.com/reanblock/todo-app-with-claude.git --prompt "Install dependencies, start the dev server, and report the public URL. Do nothing else." --max-turns 100 --model haiku`
-7. Open two separate claude code instances in yolo mode using sonnet.
-8. In the first instance, run `/prime_obox` which makes this the orchestrator.
-9. In the second instance use to generate a list of prompt variations you need.
-10. In the first instance (orchestrator) run the following prompt: `run obox <github-url>, <new-feature-branch-name>, model: <model-to-use>, forks: <number>, promot: <your-promot>`.
-11. Sandbox logs will be saved in `apps/sandbox_agent_working_dir/logs/` directly.
-12. Interact with sandbox using cli. README [here](./apps/sandbox_cli/README.md)
+1. Open two separate claude code instances in yolo mode using sonnet.
+2. In the first instance, run `/prime_obox` which makes this the orchestrator.
+3. In the second instance use to generate a list of prompt variations you need.
+4.  In the first instance (orchestrator) run the following prompt: `run obox <github-url>, <new-feature-branch-name>, model: <model-to-use>, forks: <number>, promot: <your-promot>`.
+5.  Sandbox logs will be saved in `apps/sandbox_agent_working_dir/logs/` directly.
+6.  Interact with sandbox using cli. README [here](./apps/sandbox_cli/README.md)
 
 **EXAMPLE PROMPT**
 
