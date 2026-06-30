@@ -1,5 +1,12 @@
 # Agent Sandboxes
 
+# NOTE - there are easier / simpler solutions such as:
+
+- Run `/sandbox` in claude code terminal
+- Use `&` or `claude --remote` to run via Anthorpics remote cloud compute
+- Use [sprites.dev](https://sprites.dev/) OR
+- Use (as this repo explains) [e2b.dev](https://e2b.dev/) 
+
 ## Install and Setup
 
 1. Clone this "agent_sandboxes" repo and cd into it.
@@ -28,7 +35,7 @@ While this is runnning you can check status in the [e2b Dashboard](https://e2b.d
 
 You can also run in a claude code instance (section below "Use MCP Server with Claude Desktop").
 
-## Quick Start 2: Run promot claude code
+## Quick Start 2: Run prompt claude code
 
 1. Open two separate claude code instances in yolo mode using sonnet.
 2. In the first instance, run `/prime_obox` which makes this the orchestrator.
